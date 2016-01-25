@@ -5,6 +5,9 @@ int Person::count = 0;
 
 Person::Person()
 {
+	dob_day = 0, dob_month = 0, dob_year = 0;
+	dod_day = 0, dod_month = 0, dod_year = 0;
+
 	count++;
 	id = count;
 	active = 0;
@@ -19,9 +22,10 @@ Person::Person(Gender sx, std::string snm, std::string nm, std::string otc)
 	surname = snm;
 	name = nm;
 	otch = otc;
+	dob_day = 0, dob_month = 0, dob_year = 0;
+	dod_day = 0, dod_month = 0, dod_year = 0;
+
 	active = 1;
-	date_of_birth = nullptr;
-	date_of_death = nullptr;
 }
 
 Person::Person(Gender sx, std::string snm, std::string nm, std::string otc, std::tm *dob)
@@ -33,11 +37,9 @@ Person::Person(Gender sx, std::string snm, std::string nm, std::string otc, std:
 	surname = snm;
 	name = nm;
 	otch = otc;
-	date_of_birth = new tm;
-	(*date_of_birth).tm_mday = (*dob).tm_mday;
-	(*date_of_birth).tm_mon = (*dob).tm_mon;
-	(*date_of_birth).tm_year = (*dob).tm_year;
-	date_of_death = nullptr;
+	dob_day = (*dob).tm_mday, dob_month = (*dob).tm_mon + 1, dob_year = (*dob).tm_year;
+	dod_day = 0, dod_month = 0, dod_year = 0;
+
 	active = 1;
 }
 
@@ -73,8 +75,8 @@ std::ostream& operator<< (std::ostream& out, Person& pers)
 	else
 	{
 		out << pers.id << " " << pers.gender << " " << pers.surname << " " << pers.name << " " << pers.otch << " ";
-		if (pers.date_of_birth) {
-			out << (*pers.date_of_birth).tm_mday << "-" << (*pers.date_of_birth).tm_mon + 1 << "-" << (*pers.date_of_birth).tm_year + 1900;
+		if (pers.dob_day != 0) {
+			out << pers.dob_day << "-" << pers.dob_month << "-" << pers.dob_year + 1900;
 		}
 		else
 		{

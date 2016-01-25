@@ -3,12 +3,21 @@
 
 FamilyDynArray::FamilyDynArray()
 {
-	families = nullptr;
+	families = 0;
 	size = 0;
+}
+
+FamilyDynArray::FamilyDynArray(const FamilyDynArray& arr)
+{
+	size = arr.GetSize();
+	families = new Family[size];
+	for (unsigned i = 0; i < size; i++)
+		families[i] = *(arr.Get(i));
 }
 
 FamilyDynArray::~FamilyDynArray()
 {
+	delete[] families;
 }
 
 unsigned FamilyDynArray::GetSize() const
@@ -60,7 +69,7 @@ Family FamilyDynArray::PopBack()
 	return ans;
 }
 
-Family* FamilyDynArray::Get(unsigned i)
+Family* FamilyDynArray::Get(unsigned i) const
 {
 	if (i >= 0 && i < size)
 		return &families[i];
@@ -79,7 +88,7 @@ void FamilyDynArray::Set(unsigned i, Family &f)
 void FamilyDynArray::Clear()
 {
 	delete[] families;
-	families = nullptr;
+	families = 0;
 	size = 0;
 }
 

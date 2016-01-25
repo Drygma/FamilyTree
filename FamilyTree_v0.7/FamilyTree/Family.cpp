@@ -4,11 +4,25 @@
 
 Family::Family()
 {
-	relations = nullptr;
-	members = nullptr;
+	relations = 0;
+	members = 0;
 
 	size = 0;
 	relation_count = 0;
+}
+
+Family::Family(const Family& family)
+{
+	size = family.size;
+	relation_count = family.relation_count;
+
+	relations = new Relation[relation_count];
+	for (unsigned i = 0; i < relation_count; i++)
+		relations[i] = family.relations[i];
+
+	members = new Person*[size];
+	for (unsigned i = 0; i < size; i++)
+		members[i] = family.members[i];
 }
 
 Family::Family(Person *husband, Person *wife)
@@ -25,10 +39,11 @@ Family::Family(Person *husband, Person *wife)
 
 Family::~Family()
 {
-	if(members) delete[] members;
+	if (relations) delete[] relations;
+	if (members) delete[] members;
 
-	members = nullptr;
-	relations = nullptr;
+	members = 0;
+	relations = 0;
 }
 
 void Family::AddChild(Person *child)
@@ -61,13 +76,14 @@ void Family::AddChild(Person *child)
 	delete[] relations;
 
 	relations = new_relations;
+	new_relations = 0;
 	relation_count += 2;
 
 	//Если дети до этого уже были, то нужно добавить дополнительные Relations между ними и новым ребенком
 	if (int childrenCount = getChildrenCount() - 1)
 	{
 		new_relations = new Relation[relation_count + childrenCount];
-		for (int i = 0; i < relation_count; i++) new_relations = relations;
+		for (int i = 0; i < relation_count; i++) new_relations[i] = relations[i];
 		for (int i = 2; i < size - 1; i++)
 		{
 			switch ((*members[size - 1]).gender)
@@ -82,6 +98,9 @@ void Family::AddChild(Person *child)
 					break;
 			}
 		}
+
+		delete[] relations;
+
 		relations = new_relations;
 		relation_count += childrenCount;
 		childrenCount++;
@@ -94,7 +113,7 @@ Person* Family::getMember(int i)
 	return members[i];
 }
 
-int Family::getChildrenCount()
+int Family::getChildrenCount() const
 {
 	int count = 0;
 	for (int i = 0; i < relation_count; i++)
@@ -107,12 +126,12 @@ int Family::getChildrenCount()
 	return count;
 }
 
-int Family::getRelationsCount()
+int Family::getRelationsCount() const
 {
 	return relation_count;
 }
 
-int Family::getSize()
+int Family::getSize() const
 {
 	return size;
 }
@@ -136,4 +155,20 @@ std::ostream& operator<< (std::ostream& out, Family& family)
 	}
 
 	return out;
+}
+
+Family& Family::operator=(const Family& family)
+{
+	size = family.size;
+	relation_count = family.relation_count;
+
+	relations = new Relation[relation_count];
+	for (unsigned i = 0; i < relation_count; i++)
+		relations[i] = family.relations[i];
+
+	members = new Person*[size];
+	for (unsigned i = 0; i < size; i++)
+		members[i] = family.members[i];
+
+	return *this;
 }

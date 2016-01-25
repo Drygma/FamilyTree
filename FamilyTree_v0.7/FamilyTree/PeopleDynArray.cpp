@@ -3,12 +3,21 @@
 
 PeopleDynArray::PeopleDynArray()
 {
-	people = nullptr;
+	people = 0;
 	size = 0;
+}
+
+PeopleDynArray::PeopleDynArray(const PeopleDynArray& arr)
+{
+	size = arr.GetSize();
+	people = new Person[size];
+	for (unsigned i = 0; i < size; i++)
+		people[i] = *(arr.Get(i));
 }
 
 PeopleDynArray::~PeopleDynArray()
 {
+	delete[] people;
 }
 
 unsigned PeopleDynArray::GetSize() const
@@ -60,7 +69,7 @@ Person PeopleDynArray::PopBack()
 	return ans;
 }
 
-Person* PeopleDynArray::Get(unsigned i)
+Person* PeopleDynArray::Get(unsigned i) const
 {
 	if (i >= 0 && i < size)
 		return &people[i];
@@ -89,7 +98,7 @@ void PeopleDynArray::Set(unsigned i, Person &p)
 void PeopleDynArray::Clear()
 {
 	delete[] people;
-	people = nullptr;
+	people = 0;
 	size = 0;
 }
 
