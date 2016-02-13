@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Person.h"
 
-int Person::count = 0;
+int Person::count = -1;
 
 Person::Person()
 {

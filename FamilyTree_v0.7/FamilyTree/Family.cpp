@@ -17,11 +17,11 @@ Family::Family(const Family& family)
 	relation_count = family.relation_count;
 
 	relations = new Relation[relation_count];
-	for (unsigned i = 0; i < relation_count; i++)
+	for (int i = 0; i < relation_count; i++)
 		relations[i] = family.relations[i];
 
 	members = new Person*[size];
-	for (unsigned i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		members[i] = family.members[i];
 }
 
@@ -163,11 +163,11 @@ Family& Family::operator=(const Family& family)
 	relation_count = family.relation_count;
 
 	relations = new Relation[relation_count];
-	for (unsigned i = 0; i < relation_count; i++)
+	for (int i = 0; i < relation_count; i++)
 		relations[i] = family.relations[i];
 
 	members = new Person*[size];
-	for (unsigned i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 		members[i] = family.members[i];
 
 	return *this;

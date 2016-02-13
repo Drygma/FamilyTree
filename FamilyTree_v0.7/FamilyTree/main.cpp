@@ -11,6 +11,7 @@
 #include "Relation.h"
 #include "PeopleDynArray.h"
 #include "FamilyDynArray.h"
+#include "FamilyTree.h"
 
 using namespace std;
 using namespace boost;
@@ -21,11 +22,15 @@ int Save(PeopleDynArray &people, FamilyDynArray &families, const char* filename)
 
 int main()
 {
+	/*
 	string programName = "FamilyTree v0.7";
-	const char* filename = "OurTree.ftf"; // Family Tree File
+	
 
 	PeopleDynArray people;
 	FamilyDynArray families;
+	*/
+	const char* filename = "OurTree.ftf"; // Family Tree File
+	CFamilyTree ft1(filename);
 
  	_getch();
 	return 0;
